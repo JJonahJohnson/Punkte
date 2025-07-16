@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Punktezähler</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 1rem;
+    }
+    h2 {
+      margin-top: 2rem;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 4px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #counter {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Punktezähler</h1>
+  <div id="counter">Punkte: 0</div>
+  <button onclick="changePoints(-1)">-1 Punkt</button>
+  <h2>Täglich/Allgemein</h2>
+  <button onclick="changePoints(1)">Medikamente nehmen (+1)</button>
+  <button onclick="changePoints(2)">Familie/Freunden schreiben (+2)</button>
+  <button onclick="changePoints(2)">Min. 1,5l trinken (+2)</button>
+  <button onclick="changePoints(2)">Zähne putzen (morgens) (+2)</button>
+  <button onclick="changePoints(2)">To-Do-Aufgabe abgeschlossen (+2)</button>
+  <button onclick="changePoints(3)">Morgenroutine abgeschlossen (+3)</button>
+  <button onclick="changePoints(3)">Vor 07:00 aufstehen (+3)</button>
+  <button onclick="changePoints(3)">Etw. planen (+3)</button>
+  <button onclick="changePoints(5)">Vor 18:00 mit To-Do-Liste fertig (+5)</button>
+  <button onclick="changePoints(5)">Aufgeschobene Aufgabe erledigt (+5)</button>
+  <button onclick="changePoints(5)">Vor 23:00 ins Bett (+5)</button>
+  <button onclick="changePoints(5)">Selfcare/Achtsamkeit (+5)</button>
+  <button onclick="changePoints(5)">Mit Freunden treffen (+5)</button>
+  <button onclick="changePoints(5)">Zähne putzen (abends) (+5)</button>
+  <button onclick="changePoints(7)">Dehnübungen (+7)</button>
+  <button onclick="changePoints(10)">To-Do-Liste für morgen (+10)</button>
+
+  <h2>Haushalt</h2>
+  <button onclick="changePoints(1)">Bett machen (+1)</button>
+  <button onclick="changePoints(1)">Geschirrspüler ausräumen (+1)</button>
+  <button onclick="changePoints(1)">Aufräumen (pro Raum) (+1)</button>
+  <button onclick="changePoints(1)">Um Robi kümmern (+1)</button>
+  <button onclick="changePoints(1)">Staubwischen (+1)</button>
+  <button onclick="changePoints(2)">Einkaufen (+2)</button>
+  <button onclick="changePoints(3)">Wischen (+3)</button>
+  <button onclick="changePoints(3)">Müll runterbringen (+3)</button>
+  <button onclick="changePoints(3)">Abrechnung machen (+3)</button>
+  <button onclick="changePoints(4)">Kochen/Backen (+4)</button>
+  <button onclick="changePoints(5)">Fenster putzen (+5)</button>
+  <button onclick="changePoints(5)">Zettel sortieren/abheften (+5)</button>
+
+  <h2>Uni</h2>
+  <button onclick="changePoints(1)">Mit Öffis zur Uni (+1)</button>
+  <button onclick="changePoints(1)">iPad morgens geladen (+1)</button>
+  <button onclick="changePoints(2)">Arbeiten (30min) (+2)</button>
+  <button onclick="changePoints(8)">Vorlesung besuchen (+8)</button>
+
+  <h2>Funktionen</h2>
+  <button onclick="resetPoints()">Reset</button>
+  <button onclick="saveResult()">Ergebnis speichern</button>
+  <ul id="history"></ul>
+
+  <script>
+    let points = parseInt(localStorage.getItem("points") || "0");
+    let history = JSON.parse(localStorage.getItem("history") || "[]");
+    const counter = document.getElementById("counter");
+    const historyList = document.getElementById("history");
+
+    function updateDisplay() {
+      counter.textContent = "Punkte: " + points;
+      historyList.innerHTML = history.map(entry => "<li>" + entry + "</li>").join("");
+    }
+
+    function changePoints(val) {
+      points += val;
+      localStorage.setItem("points", points);
+      updateDisplay();
+    }
+
+    function resetPoints() {
+      points = 0;
+      localStorage.setItem("points", points);
+      updateDisplay();
+    }
+
+    function saveResult() {
+      const date = new Date().toLocaleString();
+      history.push(date + ": " + points + " Punkte");
+      localStorage.setItem("history", JSON.stringify(history));
+      updateDisplay();
+    }
+
+    updateDisplay();
+  </script>
+</body>
+</html>
