@@ -85,6 +85,7 @@
       <button onclick="undoLast()">Undo</button>
       <button onclick="resetPoints()">Reset</button>
       <button onclick="saveResult()">Ergebnis speichern</button>
+      <button onclick="clearSavedResults()">Gespeicherte löschen</button>
     </div>
     <div id="categories"></div>
     <ul id="history"></ul>
@@ -156,6 +157,12 @@
     function saveResult() {
       const date = new Date().toLocaleString();
       history.push(date + ": " + points + " Punkte");
+      localStorage.setItem("history", JSON.stringify(history));
+      updateDisplay();
+    }
+
+    function clearSavedResults() {
+      history = [];
       localStorage.setItem("history", JSON.stringify(history));
       updateDisplay();
     }
